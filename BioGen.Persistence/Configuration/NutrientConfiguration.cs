@@ -13,7 +13,7 @@ namespace BioGen.Persistence.Configuration
                 .IsRequired()
                 .HasMaxLength(100);
             
-            builder.Property(x => x.Unit)
+            builder.Property(x => x.UnitOfMeasurement)
                 .IsRequired()
                 .HasMaxLength(10);
             

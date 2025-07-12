@@ -7,6 +7,6 @@ namespace BioGen.Domain.Entity
         public long Id { get; set; }
         public string Name { get; set; } // Название продукта
         public string Description { get; set; }// Краткое описание
-        public List<SupplementComponent> Components { get; set; }
+        public List<SupplementComponent> SupplementComponents { get; set; }
     }
 }

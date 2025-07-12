@@ -14,6 +14,7 @@ namespace BioGen.Persistence
         public DbSet<SupplementRecommendation> SupplementRecommendations { get; set; }
         public DbSet<SupplementComponent> SupplementComponents { get; set; }
         public DbSet<FinalDailyIntake> FinalDailyIntakes { get; set; }
+        public DbSet<NutritionReport> NutritionReports { get; set; }
 
         public ApplicationDbContext(IConfiguration configuration)
         {
