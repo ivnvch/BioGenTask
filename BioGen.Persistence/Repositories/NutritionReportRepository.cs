@@ -15,7 +15,7 @@ namespace BioGen.Persistence.Repositories
 
         public async Task<NutritionReport> GetLatestAsync()
         {
-           return await GetAllAsync()
+           return await GetAsync()
                 .Include(x => x.DailyIntakes)
                 .Include(x => x.FinalDailyIntakes)
                 .Include(x => x.SupplementRecommendations)
@@ -23,10 +23,6 @@ namespace BioGen.Persistence.Repositories
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync();
         }
-
-        public async Task<NutritionReport> CreateAsync(NutritionReport entity)
-        {
-           return await CreateAsync(entity);
-        }
+        
     }
 }

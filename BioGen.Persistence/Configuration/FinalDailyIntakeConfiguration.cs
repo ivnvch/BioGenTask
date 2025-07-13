@@ -16,8 +16,6 @@ namespace BioGen.Persistence.Configuration
             builder.Property(x => x.FromSupplements)
                 .IsRequired();
             
-            builder.Ignore(x => x.Total); // Total — вычисляемое свойство, его не нужно маппить
-            
             builder.HasOne(x => x.Nutrient)
                 .WithMany()
                 .HasForeignKey(x => x.NutrientId)

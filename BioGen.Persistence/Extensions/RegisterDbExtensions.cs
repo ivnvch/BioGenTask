@@ -18,6 +18,7 @@ namespace BioGen.Persistence.Extensions
         private static void RegisterRepository(this IServiceCollection services)
         {
             services.AddScoped<INutritionReportRepository, NutritionReportRepository>();
+            services.AddScoped<IWrapperRepository, WrapperRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

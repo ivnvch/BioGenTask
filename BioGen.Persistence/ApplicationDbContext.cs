@@ -19,8 +19,7 @@ namespace BioGen.Persistence
         public ApplicationDbContext(IConfiguration configuration)
         {
             _configuration = configuration;
-
-            Database.EnsureDeleted();
+            
             Database.EnsureCreated();
         }
 

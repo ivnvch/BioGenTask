@@ -29,7 +29,7 @@ namespace BioGen.API.Controllers
         [HttpPost]
         public async Task<ActionResult> SaveReport(NutritionReportDto nutrientReportDto)
         {
-            var response = await _nutritionReportService.CreateAsync(nutrientReportDto);
+            var response = await _nutritionReportService.CreateReportAsync(nutrientReportDto);
             
             return Ok(response);
         }

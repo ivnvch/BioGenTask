@@ -1,9 +1,9 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BioGen.Application.Abstractions.Repositories;
 using BioGen.Application.Abstractions.Services;
 using BioGen.Application.DTO;
-using BioGen.Application.Interfaces.Repositories;
 using BioGen.Domain.Entity;
 
 namespace BioGen.Application.Services
@@ -19,7 +19,7 @@ namespace BioGen.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<NutritionReport> GetLatestAsync()
+        public async Task<NutritionReportDto?> GetLatestAsync()
         {
             try
             {
@@ -27,9 +27,27 @@ namespace BioGen.Application.Services
 
                 if (report is null)
                     return null;
-                
-                return report;
-                    
+
+                var nutritionReportDto = new NutritionReportDto(
+                    CreatedAt: report.CreatedAt,
+                    DailyIntakes: report.DailyIntakes?.Select(x => new DailyIntakeDto(x.NutrientId, x.CurrentIntake))
+                        .ToList() ?? new(),
+
+                    FinalDailyIntakes: report.FinalDailyIntakes?.Select(x =>
+                            new FinalDailyIntakeDto(x.NutrientId, x.FromFood, x.FromSupplements))
+                        .ToList() ?? new(),
+
+                    SupplementRecommendations: report.SupplementRecommendations?
+                        .Select(x => new SupplementRecommendationDto(
+                            x.Name,
+                            x.Description,
+                            x.SupplementComponents?
+                                .Select(sc => new SupplementComponentDto(sc.NutrientId, sc.Amount))
+                                .ToList() ?? new()
+                        )).ToList() ?? new());
+
+                return nutritionReportDto;
+
             }
             catch (Exception ex)
             {
@@ -38,9 +56,46 @@ namespace BioGen.Application.Services
             }
         }
 
-        public Task<NutritionReportDto> CreateAsync(NutritionReportDto nutritionReportDto)
+        public async Task<NutritionReportDto> CreateReportAsync(NutritionReportDto nutritionReportDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var nutritionReport = new NutritionReport()
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    DailyIntakes = nutritionReportDto.DailyIntakes?.Select(x => new DailyIntake(
+                        nutrientId: x.NutrientId,
+                        intake: x.CurrentIntake
+                    )).ToList() ?? new(),
+                    FinalDailyIntakes = nutritionReportDto.FinalDailyIntakes?.Select(x => new FinalDailyIntake
+                    {
+                        NutrientId = x.NutrientId,
+                        FromFood = x.FromFood,
+                        FromSupplements = x.FromSupplement
+                    }).ToList() ?? new(),
+
+                    SupplementRecommendations = nutritionReportDto.SupplementRecommendations?.Select(x => new SupplementRecommendation
+                    {
+                        Name = x.Name,
+                        SupplementComponents = x.SupplementComponents?.Select(sc => new SupplementComponent
+                        {
+                            NutrientId = sc.NutrientId,
+                            Amount = sc.Amount
+                        }).ToList() ?? new()
+                    }).ToList() ?? new()
+                };
+                
+                await _wrapperRepository.NutritionReportRepository.CreateAsync(nutritionReport);
+                await _unitOfWork.SaveChangesAsync();
+                
+                return nutritionReportDto;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при получении отчёта: {ex.Message}");
+                throw new ApplicationException("Ошибка при получении последнего отчёта.", ex);
+            }
         }
     }
 }

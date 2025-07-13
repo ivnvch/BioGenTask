@@ -5,11 +5,11 @@ namespace BioGen.Domain.Entity
 {
     public class NutritionReport
     {
-        public long Id { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public long Id { get; init; }
+        public DateTime CreatedAt { get; init; }
 
-        public List<DailyIntake> DailyIntakes { get; set; } = new();
-        public List<FinalDailyIntake> FinalDailyIntakes { get; set; } = new();
-        public List<SupplementRecommendation> SupplementRecommendations { get; set; } = new();
+        public List<DailyIntake> DailyIntakes { get; init; } = new();
+        public List<FinalDailyIntake> FinalDailyIntakes { get; init; } = new();
+        public List<SupplementRecommendation> SupplementRecommendations { get; init; } = new();
     }
 }

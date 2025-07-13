@@ -8,6 +8,8 @@ namespace BioGen.Domain.Entity
         
         public long NutrientId { get; init; }
         public Nutrient Nutrient { get; init; }
+        public long NutritionReportId { get; init; }
+        public NutritionReport NutritionReport { get; init; }
         
         public double CurrentIntake { get; private set; }
         

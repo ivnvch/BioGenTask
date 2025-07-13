@@ -2,14 +2,14 @@ namespace BioGen.Domain.Entity
 {
     public class SupplementComponent //Состав БАД
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
 
-        public long SupplementRecommendationId { get; set; }
-        public SupplementRecommendation SupplementRecommendation { get; set; }
+        public long SupplementRecommendationId { get; init; }
+        public SupplementRecommendation SupplementRecommendation { get; init; }
 
-        public long NutrientId { get; set; }
-        public Nutrient Nutrient { get; set; }
+        public long NutrientId { get; init; }
+        public Nutrient Nutrient { get; init; }
 
-        public double Amount { get; set; } // Кол-во нутриента в одной дозе
+        public double Amount { get; init; } // Кол-во нутриента в одной дозе
     }
 }

@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using BioGen.Application.Abstractions.Repositories;
 using BioGen.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,7 @@ namespace BioGen.Persistence.Repositories
            return entity;
         }
 
-        public IQueryable<TEntity> GetAllAsync()
+        public IQueryable<TEntity> GetAsync()
         {
             return  _context.Set<TEntity>().AsNoTracking();
         }

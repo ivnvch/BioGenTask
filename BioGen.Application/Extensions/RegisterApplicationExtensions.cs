@@ -14,6 +14,7 @@ namespace BioGen.Application.Extensions
         private static void ConfigurationServices(this IServiceCollection services)
         {
             services.AddScoped<INutritionReportService, NutritionReportService>();
+            
         }
     }
 }

@@ -6,7 +6,7 @@ namespace BioGen.Application.Abstractions.Services
 {
     public interface INutritionReportService
     {
-        Task<NutritionReport> GetLatestAsync();
-        Task<NutritionReportDto> CreateAsync(NutritionReportDto  nutritionReportDto);
+        Task<NutritionReportDto> GetLatestAsync();
+        Task<NutritionReportDto> CreateReportAsync(NutritionReportDto  nutritionReportDto);
     }
 }
