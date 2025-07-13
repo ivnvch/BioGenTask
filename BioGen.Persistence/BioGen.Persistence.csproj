@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BioGen.Application\BioGen.Application.csproj" />
       <ProjectReference Include="..\BioGen.Domain\BioGen.Domain.csproj" />
     </ItemGroup>
 

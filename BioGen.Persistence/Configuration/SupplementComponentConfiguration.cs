@@ -19,7 +19,7 @@ namespace BioGen.Persistence.Configuration
                 .OnDelete(DeleteBehavior.Restrict); // нельзя удалять Nutrient, если он используется
             
             builder.HasOne(c => c.SupplementRecommendation)
-                .WithMany(r => r.Components)
+                .WithMany(r => r.SupplementComponents)
                 .HasForeignKey("SupplementRecommendationId")
                 .OnDelete(DeleteBehavior.Cascade);
         }

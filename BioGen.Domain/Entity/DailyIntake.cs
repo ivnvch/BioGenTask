@@ -4,13 +4,14 @@ namespace BioGen.Domain.Entity
 {
     public class DailyIntake//Текущее суточное потребление
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
         
-        public long NutrientId { get; set; }
-        public Nutrient Nutrient { get; set; }
-
-        private double _currentIntake;
-        public double CurrentIntake => _currentIntake;// Текущее потребление
+        public long NutrientId { get; init; }
+        public Nutrient Nutrient { get; init; }
+        public long NutritionReportId { get; init; }
+        public NutritionReport NutritionReport { get; init; }
+        
+        public double CurrentIntake { get; private set; }
         
         private DailyIntake() { }
 
@@ -19,7 +20,7 @@ namespace BioGen.Domain.Entity
             if (intake < 0)
                 throw new ArgumentOutOfRangeException(nameof(intake), "Потребление не может быть отрицательным");
             NutrientId = nutrientId;
-            _currentIntake = intake;
+            CurrentIntake = intake;
         }
         
         public void UpdateIntake(double newIntake)
@@ -27,7 +28,7 @@ namespace BioGen.Domain.Entity
             if (newIntake < 0)
                 throw new ArgumentOutOfRangeException(nameof(newIntake), "Потребление не может быть отрицательным");
 
-            _currentIntake = newIntake;
+            CurrentIntake = newIntake;
         }
         
         public bool IsDeficient()
@@ -35,7 +36,7 @@ namespace BioGen.Domain.Entity
             if (Nutrient == null)
                 throw new InvalidOperationException("Nutrient должен быть загружен для определения дефицита.");
 
-            return _currentIntake < Nutrient.RecommendedDailyIntake;
+            return CurrentIntake < Nutrient.RecommendedDailyIntake;
         }
     }
 }

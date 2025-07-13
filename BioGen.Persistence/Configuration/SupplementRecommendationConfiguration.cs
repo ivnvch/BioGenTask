@@ -10,14 +10,14 @@ namespace BioGen.Persistence.Configuration
         {
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             
-            builder.Property(x => x.Name).HasColumnName("name")
+            builder.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(150);
 
             builder.Property(x => x.Description)
                 .HasMaxLength(500);
             
-            builder.HasMany(r => r.Components)
+            builder.HasMany(r => r.SupplementComponents)
                 .WithOne(c => c.SupplementRecommendation)
                 .HasForeignKey(c => c.SupplementRecommendationId)
                 .OnDelete(DeleteBehavior.Cascade);
