@@ -30,23 +30,29 @@ namespace BioGen.Application.Services
                 if (report is null)
                     return null;
 
+                var finalDailyIntakeDto = report.FinalDailyIntakes?.Select(x =>
+                        new FinalDailyIntakeDto(x.NutrientId, x.FromFood, x.FromSupplements))
+                    .ToList() ?? new();
+
+                var dailyIntakeDto = report.DailyIntakes?.Select(x => new DailyIntakeDto(x.NutrientId, x.CurrentIntake))
+                    .ToList() ?? new();
+
+                var supplementRecommendationDto = report.SupplementRecommendations?
+                    .Select(x => new SupplementRecommendationDto(
+                        x.Name,
+                        x.Description,
+                        x.SupplementComponents?
+                            .Select(sc => new SupplementComponentDto(sc.NutrientId, sc.Amount))
+                            .ToList() ?? new()
+                    )).ToList() ?? new();
+                
                 var nutritionReportDto = new NutritionReportDto(
                     CreatedAt: report.CreatedAt,
-                    DailyIntakes: report.DailyIntakes?.Select(x => new DailyIntakeDto(x.NutrientId, x.CurrentIntake))
-                        .ToList() ?? new(),
+                    DailyIntakes: dailyIntakeDto,
 
-                    FinalDailyIntakes: report.FinalDailyIntakes?.Select(x =>
-                            new FinalDailyIntakeDto(x.NutrientId, x.FromFood, x.FromSupplements))
-                        .ToList() ?? new(),
+                    FinalDailyIntakes: finalDailyIntakeDto,
 
-                    SupplementRecommendations: report.SupplementRecommendations?
-                        .Select(x => new SupplementRecommendationDto(
-                            x.Name,
-                            x.Description,
-                            x.SupplementComponents?
-                                .Select(sc => new SupplementComponentDto(sc.NutrientId, sc.Amount))
-                                .ToList() ?? new()
-                        )).ToList() ?? new());
+                    SupplementRecommendations: supplementRecommendationDto);
 
                 return nutritionReportDto;
 
