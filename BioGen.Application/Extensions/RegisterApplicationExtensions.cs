@@ -1,5 +1,6 @@
 using BioGen.Application.Abstractions.Services;
 using BioGen.Application.Services;
+using BioGen.Application.Validations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BioGen.Application.Extensions
@@ -14,7 +15,6 @@ namespace BioGen.Application.Extensions
         private static void ConfigurationServices(this IServiceCollection services)
         {
             services.AddScoped<INutritionReportService, NutritionReportService>();
-            
         }
     }
 }

@@ -30,6 +30,8 @@ namespace BioGen.API.Controllers
         public async Task<ActionResult> SaveReport(NutritionReportDto nutrientReportDto)
         {
             var response = await _nutritionReportService.CreateReportAsync(nutrientReportDto);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             
             return Ok(response);
         }

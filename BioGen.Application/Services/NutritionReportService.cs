@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using BioGen.Application.Abstractions.Repositories;
 using BioGen.Application.Abstractions.Services;
 using BioGen.Application.DTO;
+using BioGen.Application.Validations;
 using BioGen.Domain.Entity;
 
 namespace BioGen.Application.Services
@@ -60,21 +62,25 @@ namespace BioGen.Application.Services
         {
             try
             {
-                var nutritionReport = new NutritionReport()
-                {
-                    CreatedAt = DateTime.UtcNow,
-                    DailyIntakes = nutritionReportDto.DailyIntakes?.Select(x => new DailyIntake(
-                        nutrientId: x.NutrientId,
-                        intake: x.CurrentIntake
-                    )).ToList() ?? new(),
-                    FinalDailyIntakes = nutritionReportDto.FinalDailyIntakes?.Select(x => new FinalDailyIntake
-                    {
-                        NutrientId = x.NutrientId,
-                        FromFood = x.FromFood,
-                        FromSupplements = x.FromSupplement
-                    }).ToList() ?? new(),
+                var validator = new NutritionReportDtoValidator();
+                var result = await validator.ValidateAsync(nutritionReportDto);
+                
+                if(!result.IsValid)
+                    throw new ValidationException(result.Errors.ToString());
+                
+                var dailyIntakes = nutritionReportDto.DailyIntakes?
+                    .Select(x => new DailyIntake(x.NutrientId, x.CurrentIntake))
+                    .ToList() ?? new();
 
-                    SupplementRecommendations = nutritionReportDto.SupplementRecommendations?.Select(x => new SupplementRecommendation
+                var finalDailyIntakes = nutritionReportDto.FinalDailyIntakes?.Select(x => new FinalDailyIntake
+                {
+                    NutrientId = x.NutrientId,
+                    FromFood = x.FromFood,
+                    FromSupplements = x.FromSupplement
+                }).ToList() ?? new();
+
+                var supplementRecommendations = nutritionReportDto.SupplementRecommendations?.Select(x =>
+                    new SupplementRecommendation
                     {
                         Name = x.Name,
                         SupplementComponents = x.SupplementComponents?.Select(sc => new SupplementComponent
@@ -82,7 +88,13 @@ namespace BioGen.Application.Services
                             NutrientId = sc.NutrientId,
                             Amount = sc.Amount
                         }).ToList() ?? new()
-                    }).ToList() ?? new()
+                    }).ToList() ?? new();
+                var nutritionReport = new NutritionReport()
+                {
+                    DailyIntakes = dailyIntakes,
+                    FinalDailyIntakes = finalDailyIntakes,
+
+                    SupplementRecommendations = supplementRecommendations,
                 };
                 
                 await _wrapperRepository.NutritionReportRepository.CreateAsync(nutritionReport);

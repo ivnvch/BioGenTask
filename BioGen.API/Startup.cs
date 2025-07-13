@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BioGen.Application.Extensions;
+using BioGen.Application.Validations;
 using BioGen.Persistence;
 using BioGen.Persistence.Extensions;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +33,11 @@ namespace BioGen.API
         {
             services.AddDalExtensions();
             services.AddApplicationExtensions();
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(fv =>
+                {
+                    fv.RegisterValidatorsFromAssemblyContaining<NutritionReportDtoValidator>();
+                });
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "BioGen", Version = "v1" }); });
         }
 
