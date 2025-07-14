@@ -10,6 +10,6 @@ namespace BioGen.Domain.Entity
         public long NutrientId { get; init; }
         public Nutrient Nutrient { get; init; }
 
-        public double Amount { get; init; } // Кол-во нутриента в одной дозе
+        public double Amount { get; init; }
     }
 }
