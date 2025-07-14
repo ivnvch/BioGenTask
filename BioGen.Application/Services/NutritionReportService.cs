@@ -21,7 +21,7 @@ namespace BioGen.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<NutritionReportDto?> GetLatestAsync()
+        public async Task<NutritionReportDto> GetLatestAsync()
         {
             try
             {
@@ -49,9 +49,7 @@ namespace BioGen.Application.Services
                 var nutritionReportDto = new NutritionReportDto(
                     CreatedAt: report.CreatedAt,
                     DailyIntakes: dailyIntakeDto,
-
                     FinalDailyIntakes: finalDailyIntakeDto,
-
                     SupplementRecommendations: supplementRecommendationDto);
 
                 return nutritionReportDto;
@@ -89,6 +87,7 @@ namespace BioGen.Application.Services
                     new SupplementRecommendation
                     {
                         Name = x.Name,
+                        Description = x.Description,
                         SupplementComponents = x.SupplementComponents?.Select(sc => new SupplementComponent
                         {
                             NutrientId = sc.NutrientId,

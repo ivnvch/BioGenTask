@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioGen.API", "BioGen.API\BioGen.API.csproj", "{DD73F809-F125-4821-8B24-1DF699257682}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BooGen.Domain", "BooGen.Domain", "{66CB3D4D-B827-448F-83E7-39C7ED3F08D6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{66CB3D4D-B827-448F-83E7-39C7ED3F08D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioGen.Domain", "BioGen.Domain\BioGen.Domain.csproj", "{F1BAD586-896D-4107-A047-8B3C437AF7CC}"
 EndProject
